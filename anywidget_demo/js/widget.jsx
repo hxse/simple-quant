@@ -6,74 +6,76 @@ import { csvToArray, jsonToArray, transpose, convertArray } from "./tool";
 
 const render = createRender(() => {
   const [value, setValue] = useModelState("value");
-  const [ohlcvData, setOhlcvData] = useModelState("ohlcvData");
-  const [optObj, setOptObj] = useModelState("optObj");
-  const [ohlcvDataList, setOhlcvDataList] = useModelState("ohlcvDataList");
-  const [ohlcvDataLabel, setOhlcvDataLabel] = useModelState("ohlcvDataLabel");
-  const [storeData, setStoreData] = useModelState("storeData");
-  const [storeList, setStoreList] = useModelState("storeList");
-  const [storeOptObj, setStoreOptObj] = useModelState("storeOptObj");
-  const [GCData, setGCData] = useModelState("GCData");
-  const [DCData, setDCData] = useModelState("DCData");
-  const [GCDCList, setGCDCList] = useModelState("GCDCList");
+  const [ohlcData] = useModelState("ohlcData");
+  const [taData] = useModelState("taData");
+  const [gcData] = useModelState("gcData");
+  const [dcData] = useModelState("dcData");
+  const [storeData] = useModelState("storeData");
 
-  console.log("optObj:", optObj);
-  console.log("storeOptObj:", storeOptObj);
-  console.log("ohlcvDataList:", ohlcvDataList);
-  console.log("ohlcvDataLabel:", ohlcvDataLabel);
-  console.log("storeList:", storeList);
-  console.log("GCDCList", GCDCList);
+  const [ohlcConfig] = useModelState("ohlcConfig");
+  const [taConfig] = useModelState("taConfig");
+  const [btConfig] = useModelState("btConfig");
 
-  // let  ohlcvDataArray= csvToArray(ohlcvData)
-  // ohlcvDataArray = transpose(ohlcvDataArray)
-  // ohlcvDataArray = convertArray(ohlcvDataArray)
-  let ohlcvDataArray = jsonToArray(ohlcvData);
-  console.log("ohlcvData:", ohlcvDataArray);
+  const [chartOpt] = useModelState("chartOpt");
+  const [subOpt] = useModelState("subOpt");
+  const [storeOpt] = useModelState("storeOpt");
 
-  let storeDataArray = jsonToArray(storeData);
-  console.log("storeData:", storeDataArray);
+  let ohlcDataObj = jsonToArray(ohlcData);
+  let taDataObj = jsonToArray(taData);
+  let storeDataObj = jsonToArray(storeData);
+  let gcDataObj = jsonToArray(gcData);
+  let dcDataObj = jsonToArray(dcData);
+  console.log("dataObj:", {
+    ohlcDataObj: ohlcDataObj,
+    taDataObj: taDataObj,
+    storeDataObj: storeDataObj,
+    gcDataObj: gcDataObj,
+    dcDataObj: dcDataObj,
+  });
 
-  let GCDataArray = jsonToArray(GCData);
-  console.log("GCData:", GCDataArray);
-  let DCDataArray = jsonToArray(DCData);
-  console.log("DCData:", DCDataArray);
+  let ohlcConfigObj = jsonToArray(ohlcConfig);
+  let taConfigObj = jsonToArray(taConfig);
+  let btConfigObj = jsonToArray(btConfig);
+  console.log("configObj:", {
+    ohlcConfigObj: ohlcConfigObj,
+    taConfigObj: taConfigObj,
+    btConfigObj: btConfigObj,
+  });
+
+  let chartOptObj = jsonToArray(chartOpt);
+  let subOptObj = jsonToArray(subOpt);
+  let storeOptObj = jsonToArray(storeOpt);
+  console.log("optObj:", {
+    chartOptObj: chartOptObj,
+    subOptObj: subOptObj,
+    storeOptObj: storeOptObj,
+  });
 
   return (
     <div>
       <button className="anywidget_demo-counter-button" onClick={() => setValue(value + 1)}>
         count is {value}
       </button>
-      {ohlcvDataList && ohlcvDataList.length > 0 ? <div id="ohlcvBoard">ohlcvBoard</div> : ""}
-      {storeList && storeList.length > 0 ? <div id="storeBoard">storeBoard</div> : ""}
-      {ohlcvDataList && ohlcvDataList.length > 0 ? (
+      {Object.keys(ohlcDataObj).length > 0 ? <div id="ohlcBoard">ohlcvBoard</div> : ""}
+      {Object.keys(taDataObj).length > 0 ? <div id="taDataObj">ohlcvBoard</div> : ""}
+      {Object.keys(storeDataObj).length > 0 ? <div id="storeBoard">storeBoard</div> : ""}
+      {
         <Chart
-          id="ohlcvChart"
+          id="chart"
           value={value}
-          optObj={optObj}
-          ohlcvData={ohlcvDataArray}
-          ohlcvDataList={ohlcvDataList}
-          ohlcvDataLabel={ohlcvDataLabel}
-          GCData={GCDataArray}
-          DCData={DCDataArray}
-          GCDCList={GCDCList}
+          ohlcData={ohlcDataObj}
+          taData={taDataObj}
+          storeData={storeDataObj}
+          gcData={gcDataObj}
+          dcData={dcDataObj}
+          ohlcConfig={ohlcConfigObj}
+          taConfig={taConfigObj}
+          btConfig={btConfigObj}
+          chartOpt={chartOptObj}
+          subOpt={subOptObj}
+          storeOpt={storeOptObj}
         ></Chart>
-      ) : (
-        ""
-      )}
-      {storeList && storeList.length > 0 ? (
-        <Chart
-          id="storeBoard"
-          value={value}
-          optObj={storeOptObj}
-          ohlcvData={storeDataArray}
-          ohlcvDataList={storeList}
-          GCData={GCDataArray}
-          DCData={DCDataArray}
-          GCDCList={GCDCList}
-        ></Chart>
-      ) : (
-        ""
-      )}
+      }
     </div>
   );
 });

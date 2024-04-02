@@ -1,11 +1,24 @@
 import uPlot from 'uplot';
 
-export function seriesPointsPlugin({ value, ohlcvData, optObj, ohlcvDataList, ohlcvDataLabel, GCData, DCData, GCDCList } = {}) {
-
-    function drawCircle(ctx, x, y, mode = "up", radius = 4, distance = 25, strokeWidth = 2) {
+export function seriesPointsPlugin({
+    id,
+    value,
+    ohlcData,
+    taData,
+    storeData,
+    gcData,
+    dcData,
+    ohlcConfig,
+    taConfig,
+    btConfig,
+    chartOpt,
+    subOpt,
+    storeOpt
+} = {}) {
+    function drawCircle(ctx, x, y, mode = "up", radius = 4, distance = 20, strokeWidth = 2) {
         if (mode == "up") {
             ctx.beginPath()
-            ctx.arc(x, y + distance, radius, 0, 2 * Math.PI, false)
+            ctx.arc(x, y - distance, radius, 0, 2 * Math.PI, false)
 
             ctx.fillStyle = "red"
             ctx.fill()
@@ -15,7 +28,7 @@ export function seriesPointsPlugin({ value, ohlcvData, optObj, ohlcvDataList, oh
         }
         if (mode == "down") {
             ctx.beginPath()
-            ctx.arc(x, y - distance, radius, 0, 2 * Math.PI, false)
+            ctx.arc(x, y + distance, radius, 0, 2 * Math.PI, false)
 
             ctx.fillStyle = "blue"
             ctx.fill()
@@ -62,28 +75,40 @@ export function seriesPointsPlugin({ value, ohlcvData, optObj, ohlcvDataList, oh
         while (j <= i1) {
             let cx = Math.round(toPosX(u.data[0][j], u));
             let cy = Math.round(u.valToPos(u.data[i][j], scale, true));
-            if (GCDCList[0] <= GCData.length - 1 && GCData[GCDCList[0]][j]) {
-                drawTriangle(ctx, cx + left, cy, "up");
+
+
+            let _open = ohlcData["open"][j]
+            let _high = ohlcData["high"][j]
+            let _low = ohlcData["low"][j]
+            let _close = ohlcData["close"][j]
+
+            const posOpen = u.valToPos(_open, "y", true)
+            const posHigh = u.valToPos(_high, "y", true)
+            const posLow = u.valToPos(_low, "y", true)
+            const posClose = u.valToPos(_close, "y", true)
+
+            if (gcData["Entries"][j]) {
+                drawTriangle(ctx, cx + left, posLow, "up");
             }
-            if (GCDCList[1] <= GCData.length - 1 && GCData[GCDCList[1]][j]) {
-                drawCircle(ctx, cx + left, cy, "up");
+            if (gcData["Exits"][j]) {
+                drawCircle(ctx, cx + left, posHigh, "up");
             }
-            if (GCDCList[0] <= DCData.length - 1 && DCData[GCDCList[0]][j]) {
-                drawTriangle(ctx, cx + left, cy, "down");
+            if (dcData["Entries"][j]) {
+                drawTriangle(ctx, cx + left, posHigh, "down");
             }
-            if (GCDCList[1] <= DCData.length - 1 && DCData[GCDCList[1]][j]) {
-                drawCircle(ctx, cx + left, cy, "down");
+            if (dcData["Exits"][j]) {
+                drawCircle(ctx, cx + left, posLow, "down");
             }
             j++;
         };
 
-        ctx.restore();
+        // ctx.restore();
     }
 
     return {
         opts: (u, opts) => {
             opts.series.forEach((s, i) => {
-                if (i == 1 && optObj.id == "ohlcvData") {
+                if (i == 1 && id == "ohlcChart") {
                     uPlot.assign(s, {
                         points: {
                             show: drawPoints,

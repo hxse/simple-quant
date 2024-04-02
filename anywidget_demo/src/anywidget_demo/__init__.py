@@ -16,15 +16,20 @@ class Counter(anywidget.AnyWidget):
 
     value = traitlets.Int(0).tag(sync=True)
 
-    ohlcvData = traitlets.Unicode("").tag(sync=True)
-    ohlcvDataList = traitlets.List().tag(sync=True)
-    ohlcvDataLabel = traitlets.List().tag(sync=True)
-    optObj = traitlets.Dict().tag(sync=True)
-
+    ohlcData = traitlets.Unicode("").tag(sync=True)
+    taData = traitlets.Unicode("").tag(sync=True)
+    gcData = traitlets.Unicode("").tag(sync=True)
+    dcData = traitlets.Unicode("").tag(sync=True)
     storeData = traitlets.Unicode("").tag(sync=True)
-    storeList = traitlets.List().tag(sync=True)
-    storeOptObj = traitlets.Dict().tag(sync=True)
 
-    GCData = traitlets.Unicode("").tag(sync=True)
-    DCData = traitlets.Unicode("").tag(sync=True)
-    GCDCList = traitlets.List().tag(sync=True)
+    ohlcConfig = traitlets.Unicode("").tag(sync=True)
+    taConfig = traitlets.Unicode("").tag(sync=True)
+    btConfig = traitlets.Unicode("").tag(sync=True)
+
+    chartOpt = traitlets.Unicode("").tag(sync=True)
+    subOpt = traitlets.Unicode("").tag(sync=True)
+    storeOpt = traitlets.Unicode("").tag(sync=True)
+
+    # chartOpt = traitlets.Dict().tag(sync=True)
+    # subOpt = traitlets.Dict().tag(sync=True)
+    # storeOpt = traitlets.Dict().tag(sync=True)

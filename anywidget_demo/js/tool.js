@@ -19,5 +19,14 @@ export function convertArray(array) {
 }
 
 export function jsonToArray(text) {
-    return JSON.parse(text)
+    return JSON.parse(text, (key, value) => {
+        // if (key == "date") {
+        //     return value.map(i => new Date(i))
+        // }
+        if (value == "NaN") {
+            return null
+        } else {
+            return value;
+        }
+    })
 }

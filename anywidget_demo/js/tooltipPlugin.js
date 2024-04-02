@@ -1,6 +1,19 @@
 import { placement } from "./tool";
-export function tooltipPlugin({ value, ohlcvData, optObj, ohlcvDataList, ohlcvDataLabel, GCData, DCData, GCDCList }) {
-
+export function tooltipPlugin({
+    id,
+    value,
+    ohlcData,
+    taData,
+    storeData,
+    gcData,
+    dcData,
+    ohlcConfig,
+    taConfig,
+    btConfig,
+    chartOpt,
+    subOpt,
+    storeOpt,
+}) {
     return {
         hooks: {
             init: u => {
@@ -20,20 +33,26 @@ export function tooltipPlugin({ value, ohlcvData, optObj, ohlcvDataList, ohlcvDa
                 };
             },
             setCursor: u => {
-                const ohlcvBoard = document.querySelector('#ohlcvBoard')
+                const ohlcvBoard = document.querySelector('#ohlcBoard')
                 const storeBoard = document.querySelector('#storeBoard')
 
                 const { left, top, idx } = u.cursor;
-                if (optObj.id == "ohlcvData") {
+                if (id == "ohlcChart") {
+                    console.log(1234124124)
                     const x = u.data[0][idx];
-                    const y = u.data[1][idx];
-                    const atr = ohlcvData[ohlcvDataLabel.indexOf("atr")][idx]
-                    ohlcvBoard.textContent = `${new Date(x * 1000).toLocaleString()} idx:${idx} close:${y} atr:${atr}`;
+                    let time = new Date(x * 1000).toLocaleString()
+                    let open = ohlcData["open"][idx]
+                    let high = ohlcData["high"][idx]
+                    let low = ohlcData["low"][idx]
+                    let close = ohlcData["close"][idx]
+                    // let sma_str = taConfig["ma"].map((i) => `${i}: ${taData[i][idx]}`).join('')
+                    let _atr = taData["atr"][idx]
+                    ohlcvBoard.textContent = `${time} idx:${idx} open:${open} high:${high} low:${low} close:${close} atr:${_atr}`;
                 }
-                if (optObj.id == "storeData") {
+                if (id == "storeChart") {
                     const x = u.data[0][idx];
-                    const y = u.data[2][idx];
-                    storeBoard.textContent = `${new Date(x * 1000).toLocaleString()} idx:${idx} ${y}`;
+                    const money = storeData["money"][idx]
+                    storeBoard.textContent = `${new Date(x * 1000).toLocaleString()} idx:${idx} ${money}`;
                 }
             }
         }
