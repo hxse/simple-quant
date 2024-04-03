@@ -14,7 +14,7 @@ class Counter(anywidget.AnyWidget):
     _esm = pathlib.Path(__file__).parent / "static" / "widget.js"
     _css = pathlib.Path(__file__).parent / "static" / "widget.css"
 
-    value = traitlets.Int(0).tag(sync=True)
+    # value = traitlets.Int(0).tag(sync=True)
 
     ohlcData = traitlets.Unicode("").tag(sync=True)
     taData = traitlets.Unicode("").tag(sync=True)
@@ -29,6 +29,7 @@ class Counter(anywidget.AnyWidget):
     chartOpt = traitlets.Unicode("").tag(sync=True)
     subOpt = traitlets.Unicode("").tag(sync=True)
     storeOpt = traitlets.Unicode("").tag(sync=True)
+    pluginOpt = traitlets.Unicode("").tag(sync=True)
 
     # chartOpt = traitlets.Dict().tag(sync=True)
     # subOpt = traitlets.Dict().tag(sync=True)

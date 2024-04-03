@@ -1,8 +1,7 @@
 import uPlot from 'uplot';
 
 export function candlePlugin({
-    id,
-    value,
+    _id,
     ohlcData,
     taData,
     storeData,
@@ -13,7 +12,8 @@ export function candlePlugin({
     btConfig,
     chartOpt,
     subOpt,
-    storeOpt
+    storeOpt,
+    pluginOpt
 } = {}) {
 
     function drawCandle(u, i, i0, i1) {
@@ -76,31 +76,15 @@ export function candlePlugin({
             }
             idx++;
         };
-
-        // ctx.restore();
     }
 
     return {
-        // opts: (u, opts) => {
-        //     opts.series.forEach((s, i) => {
-        //         if (i == 1 && id == "ohlcChart") {
-        //             uPlot.assign(s, {
-        //                 points: {
-        //                     show: drawCandle,
-        //                 }
-        //             });
-        //         }
-        //     });
-        // }
         hooks: {
             init: u => {
             },
             drawClear: (u) => {
                 let [iMin, iMax] = u.series[0].idxs;
                 drawCandle(u, 0, iMin, iMax)
-            },
-            setCursor: u => {
-
             }
         }
     };

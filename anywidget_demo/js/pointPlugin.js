@@ -1,8 +1,7 @@
 import uPlot from 'uplot';
 
 export function seriesPointsPlugin({
-    id,
-    value,
+    _id,
     ohlcData,
     taData,
     storeData,
@@ -13,7 +12,8 @@ export function seriesPointsPlugin({
     btConfig,
     chartOpt,
     subOpt,
-    storeOpt
+    storeOpt,
+    pluginOpt
 } = {}) {
     function drawCircle(ctx, x, y, mode = "up", radius = 4, distance = 20, strokeWidth = 2) {
         if (mode == "up") {
@@ -108,7 +108,7 @@ export function seriesPointsPlugin({
     return {
         opts: (u, opts) => {
             opts.series.forEach((s, i) => {
-                if (i == 1 && id == "ohlcChart") {
+                if (i == 1 && _id == "ohlcChart") {
                     uPlot.assign(s, {
                         points: {
                             show: drawPoints,
